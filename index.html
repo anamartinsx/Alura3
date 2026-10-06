@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Aventura na Ilha do Tesouro</title>
+
+<style>
+* {
+box-sizing: border-box;
+}
+
+body {
+font-family: Arial, sans-serif;
+background: linear-gradient(135deg, #102a43, #246b7a);
+color: white;
+text-align: center;
+margin: 0;
+padding: 20px;
+min-height: 100vh;
+display: flex;
+justify-content: center;
+align-items: center;
+}
+
+.container {
+background-color: #ffffff;
+color: #243b53;
+max-width: 650px;
+width: 100%;
+padding: 30px;
+border-radius: 20px;
+box-shadow: 0 8px 25px #00000040;
+}
+
+h1 {
+color: #176b70;
+}
+
+#historia {
+font-size: 18px;
+line-height: 1.7;
+margin: 25px 0;
+}
+
+#opcoes {
+display: flex;
+flex-direction: column;
+gap: 12px;
+}
+
+button {
+background-color: #176b70;
+color: white;
+border: none;
+padding: 14px;
+border-radius: 10px;
+font-size: 16px;
+cursor: pointer;
+transition: 0.3s;
+}
+
+button:hover {
+background-color: #104c50;
+transform: scale(1.02);
+}
+
+#reiniciar {
+background-color: #d97706;
+margin-top: 20px;
+}
+
+#reiniciar:hover {
+background-color: #a95704;
+}
+
+#progresso {
+color: #52606d;
+font-size: 14px;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+<h1>🏝️ Aventura na Ilha do Tesouro</h1>
+
+<p id="progresso">Capítulo 1</p>
+
+<div id="historia">
+Você encontrou um mapa misterioso que leva a um
+tesouro escondido em uma ilha. Prepare-se para uma
+grande aventura! O que você deseja fazer primeiro?
+</div>
+
+<div id="opcoes"></div>
+
+<button id="reiniciar" onclick="reiniciarJogo()">
+🔄 Começar novamente
+</button>
+</div>
+
+<script>
+const historia = document.getElementById("historia");
+const opcoes = document.getElementById("opcoes");
+const progresso = document.getElementById("progresso");
+
+const aventuras = {
+inicio: {
+capitulo: 1,
+texto: "Você chegou à ilha e encontrou dois caminhos. Um passa por uma floresta escura e o outro segue até uma praia. Qual caminho escolher?",
+escolhas: [
+{
+texto: "🌳 Entrar na floresta",
+destino: "floresta"
+},
+{
+texto: "🏖️ Ir para a praia",
+destino: "praia"
+}
+]
+},
+
+floresta: {
+capitulo: 2,
+texto: "Na floresta, você encontrou uma ponte quebrada e uma caverna misteriosa. O mapa indica que o tesouro está por perto!",
+escolhas: [
+{
+texto: "🌉 Tentar atravessar a ponte",
+destino: "ponte"
+},
+{
+texto: "🕯️ Explorar a caverna",
+destino: "caverna"
+}
+]
+},
+
+praia: {
+capitulo: 2,
+texto: "Na praia, você encontrou uma garrafa com uma mensagem. Ela diz que existe um barco abandonado e uma trilha escondida nas pedras.",
+escolhas: [
+{
+texto: "⛵ Procurar o barco",
+destino: "barco"
+},
+{
+texto: "🪨 Seguir pelas pedras",
+destino: "pedras"
+}
+]
+},
+
+ponte: {
+capitulo: 3,
+texto: "Você atravessou a ponte com cuidado e encontrou um baú atrás de uma árvore. Dentro dele havia moedas de ouro e uma chave misteriosa!",
+final: true,
+resultado: "🏆 Final 1: O tesouro da floresta!"
+},
+
+caverna: {
+capitulo: 3,
+texto: "Dentro da caverna, você encontrou uma passagem secreta. Ela levou você até uma sala cheia de pedras preciosas. Você conseguiu encontrar o tesouro!",
+final: true,
+resultado: "💎 Final 2: A caverna das pedras preciosas!"
+},
+
+barco: {
+capitulo: 3,
+texto: "O barco ainda funcionava! Você navegou até uma pequena ilha próxima e encontrou um baú cheio de moedas antigas. Sua aventura foi um sucesso!",
+final: true,
+resultado: "⛵ Final 3: O tesouro perdido!"
+},
+
+pedras: {
+capitulo: 3,
+texto: "Você encontrou uma passagem entre as pedras que levava a um jardim secreto. No centro dele havia um baú com um mapa para novas aventuras!",
+final: true,
+resultado: "🗺️ Final 4: O mapa misterioso!"
+}
+};
+
+function mostrarAventura(nome) {
+const etapa = aventuras[nome];
+
+progresso.textContent = "Capítulo " + etapa.capitulo;
+historia.textContent = etapa.texto;
+
+opcoes.innerHTML = "";
+
+if (etapa.final) {
+const resultado = document.createElement("h2");
+resultado.textContent = etapa.resultado;
+historia.appendChild(resultado);
+
+const mensagem = document.createElement("p");
+mensagem.textContent =
+"Parabéns! Você chegou ao final da aventura.";
+historia.appendChild(mensagem);
+
+return;
+}
+
+etapa.escolhas.forEach(function(escolha) {
+const botao = document.createElement("button");
+
+botao.textContent = escolha.texto;
+
+botao.addEventListener("click", function() {
+mostrarAventura(escolha.destino);
+});
+
+opcoes.appendChild(botao);
+});
+}
+
+function reiniciarJogo() {
+mostrarAventura("inicio");
+}
+
+mostrarAventura("inicio");
+</script>
+
+</body>
+</html>
